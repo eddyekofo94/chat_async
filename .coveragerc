@@ -1,0 +1,3 @@
+[run]
+source = chat_async
+omit = chat_async/test*
