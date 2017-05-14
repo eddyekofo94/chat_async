@@ -14,6 +14,10 @@ def jsonp_encoder(obj):
     return json.loads(obj)
 
 
+@view_config(route_name='home', renderer='templates/mytemplate.jinja2')
+def my_view(request):
+    # StatNamespace.pong(request)
+    return {'project': 'chat_async'}
 # class StatNamespace(Namespace):
 #     def __init__(self):
 #         print("INIT")
@@ -32,6 +36,7 @@ def jsonp_encoder(obj):
     #     sio.emit('pong_from_server', room=request)
     #     return sio.emit('pong_from_server', room=request)
 
+
 @sio.on('ping_from_client')
 @view_config(route_name="socket")
 def socketio(sid):
@@ -41,11 +46,6 @@ def socketio(sid):
     sio.emit('pong_from_server', room=sid)
     return {}
 
-
-@view_config(route_name='home', renderer='templates/mytemplate.jinja2')
-def my_view(request):
-    # StatNamespace.pong(request)
-    return {'project': 'chat_async'}
     #
     # # Async
     # @sio.on('ping_from_client')
