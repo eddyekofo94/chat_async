@@ -1,6 +1,6 @@
 $(document).ready(function () {
-      var socket = io.connect('http://localhost:6543', { reconnect: true });
-      if(socket.connected){
+      var socket = io.connect('http://localhost:6543');
+      if (socket.connected) {
           console.log("Server connected");
       }else {
           console.log('Server not connected');

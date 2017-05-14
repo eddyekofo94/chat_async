@@ -14,13 +14,13 @@ def jsonp_encoder(obj):
     return json.loads(obj)
 
 
-class StatNamespace(Namespace):
-    def __init__(self):
-        print("INIT")
-        self.session['speed'] = 1
-        self.emit("sine", {"value": 123})
-        self.spawn(self.job_send_sine)
-        self.spawn(self.job_grab_clik_data)
+# class StatNamespace(Namespace):
+#     def __init__(self):
+#         print("INIT")
+#         self.session['speed'] = 1
+#         self.emit("sine", {"value": 123})
+#         self.spawn(self.job_send_sine)
+#         self.spawn(self.job_grab_clik_data)
 
     # @sio.on('ping_from_client')
     # @view_config(route_name='socket', xhr=True, renderer="json")
@@ -32,17 +32,19 @@ class StatNamespace(Namespace):
     #     sio.emit('pong_from_server', room=request)
     #     return sio.emit('pong_from_server', room=request)
 
-
+@sio.on('ping_from_client')
 @view_config(route_name="socket")
-def socketio(request):
-    from socketio import socketio_manage
-    socketio_manage(request.environ, {"/stat": StatNamespace},
-                    request=request)
+def socketio(sid):
+    # from socketio import socketio_manage
+    # socketio_manage(request.environ, {"/stat": StatNamespace},
+    #                 request=request)
+    sio.emit('pong_from_server', room=sid)
+    return {}
 
 
 @view_config(route_name='home', renderer='templates/mytemplate.jinja2')
 def my_view(request):
-    StatNamespace.pong(request)
+    # StatNamespace.pong(request)
     return {'project': 'chat_async'}
     #
     # # Async
