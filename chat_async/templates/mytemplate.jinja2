@@ -7,63 +7,8 @@
   		<div class="panel panel-default work-progress-table">
          <h1>Socket.IO Latency <span id="latency"></span></h1>
          <h2 id="transport">(connecting)</h2>
-         <p>{{view}}</p>
         <canvas id="chart" height="200"></canvas>
         </div>
 </div>
-        <script type="text/javascript">
-        $(document).ready(function () {
-            // socket
-            var socket = io.connect('http://127.0.0.1:6543');
-            var char = $('chart').get(0);
-            socket.on('connect', function () {
-                socket.send("user has connected!!!!!!!!!!!!!");
-                if (chart.getContext) {
-                    render();
-                    window.onresize = render;
-                }
-                send();
-                socket.send("user has connected!!!!!!!!!!!!!");
 
-              });
-
-            socket.on('pong_from_server', function() {
-                var latency = new Date - last;
-                $('#latency').text(latency + 'ms');
-                if (time)
-                    time.append(+new Date, latency);
-                setTimeout(send, 100);
-
-              });
-
-            socket.on('disconnect', function() {
-                if (smoothie)
-                    smoothie.stop();
-                $('#transport').text('(disconnected)');
-            });
-            var last;
-            function send() {
-                last = new Date;
-                socket.emit('ping_from_client');
-                $('#transport').text(socket.io.engine.transport.name);
-            }
-            // chart
-            var smoothie;
-            var time;
-            function render() {
-                if (smoothie)
-                    smoothie.stop();
-                chart.width = document.body.clientWidth;
-                smoothie = new SmoothieChart();
-                smoothie.streamTo(chart, 1000);
-                time = new TimeSeries();
-                smoothie.addTimeSeries(time, {
-                    strokeStyle: 'rgb(255, 0, 0)',
-                    fillStyle: 'rgba(255, 0, 0, 0.4)',
-                    lineWidth: 2
-                });
-            }
-        });
-
-        </script>
 {% endblock content %}
